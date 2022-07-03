@@ -9,11 +9,11 @@
 
             <div class="media-body">
                 <div class="article-metadata">
-                    <a class="mr-2" href="{{ url_for('user_tasks', user_name=task.author.user_name) }}">{{ task.author.user_name }}</a>
+                    <a class="mr-2" href="{{ url_for('users.user_tasks', user_name=task.author.user_name) }}">{{ task.author.user_name }}</a>
                     <small class="text-muted">{{ task.date_posted.strftime('%b-%d-%Y') }}</small>
                 </div>
 
-                <h2><a class="article-title" href="{{ url_for('task', task_id=task.id) }}">{{ task.task_name }}</a></h2>
+                <h2><a class="article-title" href="{{ url_for('tasks.task', task_id=task.id) }}">{{ task.task_name }}</a></h2>
                 <p class="article-content">Description: {{task.text}}</p>
                 <p class="article-content">Date Posted: {{task.date_posted.strftime('%b-%d-%Y') }}</p>
                 {% if task.status == True %}
@@ -29,9 +29,9 @@
     {% for page_num in tasks.iter_pages() %}
         {% if page_num %}
             {% if tasks.page == page_num %}
-                <a class="btn btn-dark mb-4" href="{{ url_for('user_tasks', user_name=user.user_name, page=page_num) }}">{{ page_num }}</a>
+                <a class="btn btn-dark mb-4" href="{{ url_for('users.user_tasks', user_name=user.user_name, page=page_num) }}">{{ page_num }}</a>
             {% else %}
-                <a class="btn btn-outline-dark mb-4" href="{{ url_for('user_tasks', user_name=user.user_name, page=page_num) }}">{{ page_num }}</a>
+                <a class="btn btn-outline-dark mb-4" href="{{ url_for('users.user_tasks', user_name=user.user_name, page=page_num) }}">{{ page_num }}</a>
             {% endif %}
         {% else %}
             ...
