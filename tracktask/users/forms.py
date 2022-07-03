@@ -1,15 +1,13 @@
 """
 Title:      forms.py
-Desc:       holds all form methods for TrackTask application
+Desc:       holds all user form methods
 """
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
+from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms.validators import (DataRequired, Length, Email, EqualTo,
+                                ValidationError, )
 from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, \
-    TextAreaField
-from wtforms.validators import DataRequired, Length, EqualTo, Email, \
-    ValidationError
-
 from tracktask.models import User
 
 
@@ -75,10 +73,3 @@ class UpdateAccountForm(FlaskForm):
             if email is not None:
                 raise ValidationError('Email already exists.')
 
-
-class TaskForm(FlaskForm):
-    task_name = StringField('Task Name',
-                            validators=[DataRequired()], )
-    text = TextAreaField('Description',
-                         validators=[DataRequired()], )
-    submit = SubmitField('Submit Task')

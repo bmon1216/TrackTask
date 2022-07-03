@@ -7,15 +7,29 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 
-app = Flask(__name__, template_folder='templates')
-app.config['SECRET_KEY'] = 'b3cff06716cde85af6e7020490fe18e3'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tracktask.db'
+from tracktask.config import Config
 
-db = SQLAlchemy(app)
-bcrypt = Bcrypt(app)
-login_manager = LoginManager(app)
-login_manager.login_view = 'login'
+db = SQLAlchemy()
+bcrypt = Bcrypt()
+login_manager = LoginManager()
+login_manager.login_view = 'users.login'
 login_manager.login_message_category = 'info'
 
-from tracktask import routes
-from tracktask import models
+
+def create_app(config_class=Config):
+    app = Flask(__name__, template_folder='templates')
+    app.config.from_object(Config)
+
+    db.init_app(app)
+    bcrypt.init_app(app)
+    login_manager.init_app(app)
+
+    from tracktask.users.routes import users
+    from tracktask.tasks.routes import tasks
+    from tracktask.main.routes import main
+
+    app.register_blueprint(users)
+    app.register_blueprint(tasks)
+    app.register_blueprint(main)
+
+    return app
